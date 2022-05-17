@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <Editor :data="state" />
+    <Editor v-model="state" />
   </div>
 </template>
 
