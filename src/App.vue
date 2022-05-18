@@ -6,8 +6,11 @@
 
 <script>
 import data from './data.json'
-import { ref } from 'vue'
+import { ref ,provide} from 'vue'
 import Editor from './packages/editor.jsx'
+import {registerConfig as config} from './utils/editor-config.jsx'
+
+
 export default {
   components:{
     Editor
@@ -15,6 +18,8 @@ export default {
   setup(){
      const state = ref(data)
 
+    //将组件的配合直接传出去
+    provide('config',config)
     return {
       state
     }
