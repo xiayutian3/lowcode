@@ -1,6 +1,7 @@
 import { defineComponent, computed, inject, ref, emits } from "vue";
 import "./editor.scss";
 import EditorBlock from "./editor-block";
+import deepcopy from 'deepcopy'
 
 export default defineComponent({
   props: {
@@ -15,7 +16,7 @@ export default defineComponent({
         return props.modelValue;
       },
       set(newVal) {
-        ctx.emit("update:modelValue", newVal);
+        ctx.emit("update:modelValue", deepcopy(newVal));
       },
     });
     // console.log('props: ', data.value);
@@ -56,6 +57,7 @@ export default defineComponent({
             left: e.offsetX,
             zIndex: 1,
             key: currentComponent.key,
+            alignCenter:true, //希望拖动松手的时候，组件居中显示
           },
         ],
       };
