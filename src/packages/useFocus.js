@@ -21,8 +21,13 @@ export function useFocus(data,callback){
         }
       }
       //按下完成后，获取选中的组件,调用回调
-      callback()
+      callback(e)
 
+    };
+
+     //内容区域点击，取消组件选中
+     const containerMousedown = () => {
+      clearBlockFocus();
     };
 
     //移动获取焦点的组件
@@ -39,6 +44,7 @@ export function useFocus(data,callback){
     return {
       blockMousedown,
       focusData,
-      clearBlockFocus
+      // clearBlockFocus,
+      containerMousedown
     }
 }

@@ -4,6 +4,7 @@ import EditorBlock from "./editor-block";
 import deepcopy from "deepcopy";
 import { useMenuDragger } from "./useMenuDragger";
 import { useFocus } from "./useFocus";
+import { useBlockDragger } from "./useBlockDragger";
 
 export default defineComponent({
   props: {
@@ -36,16 +37,23 @@ export default defineComponent({
     // 1.拖拽hook  菜单的拖拽功能
     const { dragstart, dragend } = useMenuDragger(containerRef, data);
 
-    // 2.实现获取焦点
-    let { blockMousedown, focusData,clearBlockFocus } = useFocus(data,()=>{
-      console.log(focusData.value.focus)
-    });
+    // 2.实现获取焦点，选中后可能直接就进行拖拽了
+
+    let { blockMousedown, focusData, containerMousedown } = useFocus(
+      data,
+      (e) => {
+        //获取焦点后进行拖拽
+        mousedown(e);
+      }
+    );
+    // 2.1 实现组件拖拽
+    const { mousedown } = useBlockDragger(focusData);
 
     // 3.实现拖拽多个元素的功能
-    //内容区域点击，取消组件选中
-    const containerMousedown = () => {
-      clearBlockFocus();
-    };
+    // //内容区域点击，取消组件选中(已移动到 useFocus。js中)
+    // const containerMousedown = () => {
+    //   clearBlockFocus();
+    // };
 
     return () => (
       <div class="editor">
