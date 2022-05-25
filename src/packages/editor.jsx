@@ -39,15 +39,15 @@ export default defineComponent({
 
     // 2.实现获取焦点，选中后可能直接就进行拖拽了
 
-    let { blockMousedown, focusData, containerMousedown } = useFocus(
+    let { blockMousedown, focusData, containerMousedown,lastSelectBlock } = useFocus(
       data,
       (e) => {
         //获取焦点后进行拖拽
         mousedown(e);
       }
     );
-    // 2.1 实现组件拖拽
-    const { mousedown } = useBlockDragger(focusData);
+    // 2.1 实现组件拖拽,传入最后选中的组件，做辅助线
+    const { mousedown } = useBlockDragger(focusData,lastSelectBlock);
 
     // 3.实现拖拽多个元素的功能
     // //内容区域点击，取消组件选中(已移动到 useFocus。js中)
@@ -83,11 +83,11 @@ export default defineComponent({
               ref={containerRef}
               onMousedown={containerMousedown}
             >
-              {data.value.blocks.map((block) => (
+              {data.value.blocks.map((block,index) => (
                 <EditorBlock
                   class={block.focus ? "editor-block-focus" : ""}
                   block={block}
-                  onMousedown={(e) => blockMousedown(e, block)}
+                  onMousedown={(e) => blockMousedown(e, block,index)}
                 ></EditorBlock>
               ))}
             </div>

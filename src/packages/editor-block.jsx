@@ -26,6 +26,9 @@ export default defineComponent({
 
         props.block.alignCenter = false
       }
+      //渲染完成，加上宽高数据，做辅助线需要用到
+      props.block.width = offsetWidth
+      props.block.height = offsetHeight
 
     })
 

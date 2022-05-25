@@ -1,4 +1,4 @@
-// 列表区可以显示所有的物料
+// 左侧列表区可以显示所有的物料
 // key对应的组件映射关系
 import { ElButton, ElInput } from "element-plus";
 
