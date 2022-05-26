@@ -47,7 +47,7 @@ export default defineComponent({
       }
     );
     // 2.1 实现组件拖拽,传入最后选中的组件，做辅助线
-    const { mousedown } = useBlockDragger(focusData,lastSelectBlock);
+    const { mousedown,markLine } = useBlockDragger(focusData,lastSelectBlock,data);
 
     // 3.实现拖拽多个元素的功能
     // //内容区域点击，取消组件选中(已移动到 useFocus。js中)
@@ -90,6 +90,10 @@ export default defineComponent({
                   onMousedown={(e) => blockMousedown(e, block,index)}
                 ></EditorBlock>
               ))}
+
+              {/* 两根辅助线 */}
+              {markLine.x !== null && <div class="line-x" style={{left:markLine.x + 'px'}}></div>}
+              {markLine.y !== null && <div class="line-y" style={{top:markLine.y + 'px'}}></div>}
             </div>
           </div>
         </div>
