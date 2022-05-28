@@ -1,3 +1,5 @@
+import {events} from './events'
+
 export function useMenuDragger(containerRef, data) {
   //获取拖动的组件
   let currentComponent = null;
@@ -48,6 +50,8 @@ export function useMenuDragger(containerRef, data) {
     containerRef.value.addEventListener("dragleave", dragleave);
     containerRef.value.addEventListener("drop", drop);
     currentComponent = component;
+    //发布事件-start
+    events.emit('start')
   };
 
   //拖拽结束,清除事件
@@ -56,6 +60,8 @@ export function useMenuDragger(containerRef, data) {
     containerRef.value.removeEventListener("dragover", dragover);
     containerRef.value.removeEventListener("dragleave", dragleave);
     containerRef.value.removeEventListener("drop", drop);
+    //发布事件-end
+    events.emit('end')
   };
 
   return {

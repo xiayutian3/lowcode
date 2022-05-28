@@ -5,6 +5,7 @@ import deepcopy from "deepcopy";
 import { useMenuDragger } from "./useMenuDragger";
 import { useFocus } from "./useFocus";
 import { useBlockDragger } from "./useBlockDragger";
+import {useCommand} from "./useCommand";
 
 export default defineComponent({
   props: {
@@ -55,6 +56,16 @@ export default defineComponent({
     //   clearBlockFocus();
     // };
 
+
+    //记录每次的操作，方便回退 ,将源数据传入
+    const {commands} = useCommand(data)  //[]
+    //中间上边区域的菜单项
+    const buttons = [
+      {label:"撤销",icon:'icon-back',handler:() =>commands.undo()},
+      {label:"重做",icon:'icon-forward',handler:() =>commands.redo()},
+    ]
+
+
     return () => (
       <div class="editor">
         <div class="editor-left">
@@ -71,7 +82,16 @@ export default defineComponent({
             </div>
           ))}
         </div>
-        <div class="editor-top"></div>
+        <div class="editor-top">
+          {
+            buttons.map((btn,index) => {
+              return <div class="editor-top-button" onClick={btn.handler}>
+                <i class={btn.icon}></i>
+                <span>{btn.label}</span>
+              </div>
+            })
+          }
+        </div>
         <div class="editor-right"></div>
         <div class="editor-container">
           {/*  负责产生滚动条 */}
